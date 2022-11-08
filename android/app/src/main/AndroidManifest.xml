@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nacro90.groen">
-   <application
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <application
         android:label="groen"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
