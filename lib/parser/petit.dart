@@ -1,5 +1,5 @@
 import 'package:charcode/charcode.dart';
-import 'package:groen/parser/char_definitions.dart';
+import 'package:groen/parser/chardef.dart';
 import 'package:petitparser/petitparser.dart';
 
 final _punctuationParser = punctuations.map(_charCode).toChoiceParser(
