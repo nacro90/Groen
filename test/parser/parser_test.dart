@@ -1,7 +1,7 @@
 import 'package:charcode/charcode.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groen/norg/parser.dart';
-import 'package:groen/norg/tokenizer.dart';
+import 'package:groen/parser/parser.dart';
+import 'package:groen/parser/tokenizer.dart';
 import 'package:groen/string_helpers.dart';
 
 void main() {

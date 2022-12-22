@@ -1,6 +1,6 @@
 import 'package:charcode/charcode.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groen/norg/tokenizer.dart';
+import 'package:groen/parser/tokenizer.dart';
 
 void main() {
   test('isValid() returns true when input string is bold text', () {

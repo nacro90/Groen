@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:groen/norg/tokenizer.dart';
+import 'package:groen/parser/tokenizer.dart';
 import 'package:groen/string_helpers.dart';
 
 class Range extends Equatable {
