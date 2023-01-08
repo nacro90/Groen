@@ -2,64 +2,54 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:groen/parser/petit.dart';
 import 'package:petitparser/petitparser.dart';
 
-void expectResult(
-  Result result,
-  dynamic matcher, [
-  String? reason,
-  bool skip = false,
-]) {
-  if (result.isFailure) {
-    fail(result.message);
+extension AssertiveParse on Parser {
+  Result parse(String input) {
+    final result = parse(input);
+    if (result.isFailure) {
+      fail(result.message);
+    }
+    return result;
   }
-  expect(result.value, matcher, reason: reason, skip: skip);
 }
 
 void main() {
   test('should parse plain word', () {
     // given
-    final definition = NorgDefinition();
+    final definition = NorgGrammar();
     final parser = definition.build();
     // when
-    final result = parser.parse('word');
+    final success = parser.parse('word');
     // then
-    if (result.isFailure) {
-      fail(result.message);
-    }
-    if (result.value is! Sequence2) {
-      fail('type mismatch: ${result.runtimeType} != Sequence2');
-    }
-    final actual = result.value as Sequence2;
-    expect(actual.first, ['word']);
-    expect(actual.second, null);
+    expect(success.value[0], 'word');
   });
 
-  test('should parse words with whitespaces', () {
+  test('should parse bold', () {
     // given
-    final definition = NorgDefinition();
+    final definition = NorgGrammar();
     final parser = definition.build();
     // when
-    final actual = parser.parse('word1 \t word2');
+    final success = parser.parse('*word*');
     // then
-    expectResult(actual, ['word1', ' \t ', 'word2']);
+    final actual = success.value;
+    final first = actual[0];
+    expect(first[0], '*');
+    expect(first[1], 'word');
+    expect(first[2], '*');
   });
 
-  test('should parse words with spaces and punctuations', () {
+  test('should parse plain and italic divided with a space', () {
     // given
-    final definition = NorgDefinition();
+    final definition = NorgGrammar();
     final parser = definition.build();
     // when
-    final actual = parser.parse('word1, word2!');
+    final result = parser.parse('osman /word/');
     // then
-    expectResult(actual, ['word1', ',', ' ', 'word2', '!']);
-  });
-
-  test('should parse words with escape', () {
-    // given
-    final definition = NorgDefinition();
-    final parser = definition.build();
-    // when
-    final actual = parser.parse(r'word1\ word2!');
-    // then
-    expectResult(actual, ['word1', r'\', ' ', 'word2', '!']);
+    final actual = result.value;
+    expect(actual[0], 'osman');
+    expect(actual[1], ' ');
+    final italic = actual[2];
+    expect(italic[0], '/');
+    expect(italic[1], 'word');
+    expect(italic[2], '/');
   });
 }

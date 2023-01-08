@@ -1,6 +1,23 @@
 import 'package:charcode/charcode.dart';
 
-abstract class NorgNode {}
+/// The base type of all Norg AST objects
+abstract class NorgNode {
+  List<NorgNode> get children => const [];
+}
+
+class NorgDocument extends NorgNode {
+  NorgContent content;
+
+  NorgDocument(this.content);
+}
+
+/// A generic node that contains children
+class NorgContent extends NorgNode {
+  NorgContent(this.children);
+
+  @override
+  final List<NorgNode> children;
+}
 
 class NorgPlainText extends NorgNode {
   String content;
@@ -16,6 +33,11 @@ class NorgAttachedModifier extends NorgNode {
     required this.type,
     required this.content,
   });
+}
+
+class NorgBold extends NorgAttachedModifier {
+  NorgBold(String content)
+      : super(type: NorgAttachedModifierType.bold, content: content);
 }
 
 class NorgUrlLink extends NorgNode {
