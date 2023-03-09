@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:groen/editor_page.dart';
 import 'package:groen/list_page.dart';
 import 'package:groen/settings_page.dart';
 import 'package:groen/two_state_future_builder.dart';
@@ -8,10 +7,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  debugPrint(['\t', ' ', '\n', '*', '/', '_', '^', ',', '-', '%', '!', '{', '}']
-      .map((b) =>
-          b.runes.map((e) => '${b}:${e}').toList().toString())
-      .join(' -- '));
   runApp(const MyApp());
 }
 

@@ -8,6 +8,7 @@ CharacterParser charCode(int code, [String? message]) {
   );
 }
 
-final punctuationParser = punctuations.map(charCode).toChoiceParser();
-
-final whitespaceParser = whitespaces.map(charCode).toChoiceParser();
+extension SurroundedParserExtension on Parser {
+  Parser<Sequence3> surroundedBy(Parser left, [Parser? right]) =>
+      seq3(left, this, right ?? left);
+}

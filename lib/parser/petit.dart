@@ -1,27 +1,43 @@
 import 'package:charcode/charcode.dart';
-import 'package:groen/parser/chardef.dart';
 import 'package:groen/parser/helper.dart';
-import 'package:groen/parser/model.dart';
 import 'package:petitparser/petitparser.dart';
 
 class NorgGrammar extends GrammarDefinition {
   @override
   Parser start() => ref0(document).end();
 
-  Parser document() => ref0(content).plus();
+  Parser document() => ref0(paragraph).plus();
 
-  Parser content() =>
-      ref0(word) | ref0(attachedModified) | ref0(whitespace).plus().flatten();
+  Parser paragraph() => ref0(paragraphSegment).plus();
 
-  Parser alphanum() => letter() | digit();
+  Parser paragraphSegment() =>
+      [
+        ref0(attachedModified),
+        whitespace().plus().flatten("whitespace"),
+        word().plus().flatten('word'),
+      ].toChoiceParser().plusLazy(newline()) &
+      newline();
 
-  Parser word() => ref0(alphanum).plus().flatten();
+  Parser link() => [
+        url(),
+      ].toChoiceParser();
 
-  Parser whitespace() => whitespaceParser.plus().flatten();
+  Parser url() => char("{") & char("}").neg().plus() & char("}");
 
-  Parser punctuation() => punctuationParser;
-
-  Parser attachedModifierBody() => ref0(alphanum);
+  Parser<Sequence3> attachedModifiedText(int code) => seq3(
+        charCode(code),
+        (whitespace().not() & charCode(code).neg().plus()).flatten(),
+        charCode(code),
+      );
+  Parser bold() => ref1(attachedModifiedText, $asterisk);
+  Parser italic() => ref1(attachedModifiedText, $slash);
+  Parser underline() => ref1(attachedModifiedText, $underscore);
+  Parser strikethrough() => ref1(attachedModifiedText, $dash);
+  Parser spoiler() => ref1(attachedModifiedText, $exclamation);
+  Parser superscript() => ref1(attachedModifiedText, $circumflex);
+  Parser subscript() => ref1(attachedModifiedText, $comma);
+  Parser inlineCode() => ref1(attachedModifiedText, $grave);
+  Parser inlineComment() => ref1(attachedModifiedText, $percent);
 
   Parser attachedModified() =>
       ref0(bold) |
@@ -32,30 +48,15 @@ class NorgGrammar extends GrammarDefinition {
       ref0(superscript) |
       ref0(subscript) |
       ref0(inlineCode) |
-      ref0(inlineComment) |
-      ref0(inlineMath) |
-      ref0(variable);
+      ref0(inlineComment);
 
-  Parser bold() => charCode($asterisk) & ref0(word) & charCode($asterisk);
-  Parser italic() => charCode($slash) & ref0(word) & charCode($slash);
-  Parser underline() =>
-      charCode($underscore) & ref0(word) & charCode($underscore);
-  Parser strikethrough() => charCode($dash) & ref0(word) & charCode($dash);
-  Parser spoiler() =>
-      charCode($exclamation) & ref0(word) & charCode($exclamation);
-  Parser superscript() =>
-      charCode($circumflex) & ref0(word) & charCode($circumflex);
-  Parser subscript() => charCode($comma) & ref0(word) & charCode($comma);
-  Parser inlineCode() => charCode($grave) & ref0(word) & charCode($grave);
-  Parser inlineComment() =>
-      charCode($percent) & ref0(word) & charCode($percent);
-  Parser inlineMath() => charCode($dollar) & ref0(word) & charCode($dollar);
-  Parser variable() => charCode($ampersand) & ref0(word) & charCode($ampersand);
+  Parser lineEnding() => newline();
 
-  // Parser lineEnding() => lineEndings
-  //     .map(_charCode)
-  //     .cast<Parser>()
-  //     .followedBy([seq2(_charCode($cr), _charCode($lf))]).toChoiceParser();
+  // Parser alphanum() => letter() | digit();
+
+  // Parser word() => ref0(alphanum).plus().flatten();
+
+  // Parser punctuation() => punctuations.map(charCode).toChoiceParser();
 
   // Parser regularChar() => [
   //       ref0(whitespace),
@@ -66,12 +67,9 @@ class NorgGrammar extends GrammarDefinition {
 }
 
 class NorgParser extends NorgGrammar {
-  @override
-  Parser start() => super.start().map((items) => NorgDocument(items[0]));
+  // @override
+  // Parser start() => super.start().map((items) => NorgDocument(items[0]));
 
-  @override
-  Parser content() => super.document().map((items) => NorgContent(items[0]));
-
-  @override
-  Parser bold() => super.bold().map((items) => NorgBold(items[1]));
+  // @override
+  // Parser bold() => super.bold().map((items) => NorgBold(items[1]));
 }
