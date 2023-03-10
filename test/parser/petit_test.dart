@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groen/parser/petit.dart';
+import 'package:groen/parser/petit/grammar.dart';
+import 'package:petitparser/debug.dart';
 import 'package:petitparser/petitparser.dart';
 import 'package:petitparser/reflection.dart';
 
@@ -24,7 +25,7 @@ void main() {
         expect('*bold with  whitespace*', accept(parser));
         expect('**', isNot(accept(parser)));
         expect('* succeded whitespace*', isNot(accept(parser)));
-        // expect('*preceded whitespace *', isNot(accept(parser)));
+        expect('*preceded whitespace *', isNot(accept(parser)));
       });
       test('italic', () {
         final parser = grammar.build(start: grammar.italic);
@@ -32,7 +33,7 @@ void main() {
         expect('/italic with  whitespace/', accept(parser));
         expect('//', isNot(accept(parser)));
         expect('/ succeded whitespace/', isNot(accept(parser)));
-        // expect( '/preceded whitespace /', isNot(accept(parser)));
+        expect( '/preceded whitespace /', isNot(accept(parser)));
       });
       test('underline', () {
         final parser = grammar.build(start: grammar.underline);
@@ -40,7 +41,7 @@ void main() {
         expect('_underline with  whitespace_', accept(parser));
         expect('__', isNot(accept(parser)));
         expect('_ succeded whitespace_', isNot(accept(parser)));
-        // expect( '_preceded whitespace _', isNot(accept(parser)));
+        expect( '_preceded whitespace _', isNot(accept(parser)));
       });
       test('strikethrough', () {
         final parser = grammar.build(start: grammar.strikethrough);
@@ -48,7 +49,7 @@ void main() {
         expect('-strikethrough with  whitespace-', accept(parser));
         expect('--', isNot(accept(parser)));
         expect('- succeded whitespace-', isNot(accept(parser)));
-        // expect( '-preceded whitespace -', isNot(accept(parser)));
+        expect( '-preceded whitespace -', isNot(accept(parser)));
       });
       test('spoiler', () {
         final parser = grammar.build(start: grammar.spoiler);
@@ -56,7 +57,7 @@ void main() {
         expect('!spoiler with  whitespace!', accept(parser));
         expect('!!', isNot(accept(parser)));
         expect('! succeded whitespace!', isNot(accept(parser)));
-        // expect( '!preceded whitespace !', isNot(accept(parser)));
+        expect( '!preceded whitespace !', isNot(accept(parser)));
       });
       test('superscript', () {
         final parser = grammar.build(start: grammar.superscript);
@@ -64,7 +65,7 @@ void main() {
         expect('^superscript with  whitespace^', accept(parser));
         expect('^^', isNot(accept(parser)));
         expect('^ succeded whitespace^', isNot(accept(parser)));
-        // expect( '^preceded whitespace ^', isNot(accept(parser)));
+        expect( '^preceded whitespace ^', isNot(accept(parser)));
       });
       test('subscript', () {
         final parser = grammar.build(start: grammar.subscript);
@@ -72,7 +73,7 @@ void main() {
         expect(',subscript with  whitespace,', accept(parser));
         expect(',,', isNot(accept(parser)));
         expect(', succeded whitespace,', isNot(accept(parser)));
-        // expect( ',preceded whitespace ,', isNot(accept(parser)));
+        expect( ',preceded whitespace ,', isNot(accept(parser)));
       });
       test('inlineCode', () {
         final parser = grammar.build(start: grammar.inlineCode);
@@ -80,7 +81,7 @@ void main() {
         expect('`inlineCode with  whitespace`', accept(parser));
         expect('``', isNot(accept(parser)));
         expect('` succeded whitespace`', isNot(accept(parser)));
-        // expect( '`preceded whitespace `'` isNot(accept(parser)));
+        expect( '`preceded whitespace `', isNot(accept(parser)));
       });
       test('inlineComment', () {
         final parser = grammar.build(start: grammar.inlineComment);
@@ -88,7 +89,7 @@ void main() {
         expect('%inlineComment with  whitespace%', accept(parser));
         expect('%%', isNot(accept(parser)));
         expect('% succeded whitespace%', isNot(accept(parser)));
-        // expect( '%preceded whitespace %'% isNot(accept(parser)));
+        expect( '%preceded whitespace %', isNot(accept(parser)));
       });
     });
     group('link', () {

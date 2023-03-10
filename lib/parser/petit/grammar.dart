@@ -1,6 +1,7 @@
 import 'package:charcode/charcode.dart';
-import 'package:groen/parser/helper.dart';
 import 'package:petitparser/petitparser.dart';
+
+import 'helper.dart';
 
 class NorgGrammar extends GrammarDefinition {
   @override
@@ -26,9 +27,9 @@ class NorgGrammar extends GrammarDefinition {
 
   Parser<Sequence3> attachedModifiedText(int code) => seq3(
         charCode(code),
-        (whitespace().not() & charCode(code).neg().plus()).flatten(),
+        charCode(code).neg().plus().flatten(),
         charCode(code),
-      );
+      ).where((sequence) => sequence.second.trim() == sequence.second);
   Parser bold() => ref1(attachedModifiedText, $asterisk);
   Parser italic() => ref1(attachedModifiedText, $slash);
   Parser underline() => ref1(attachedModifiedText, $underscore);
@@ -52,6 +53,8 @@ class NorgGrammar extends GrammarDefinition {
 
   Parser lineEnding() => newline();
 
+  Parser<Sequence2> escaping() => seq2(charCode($backslash), any());
+
   // Parser alphanum() => letter() | digit();
 
   // Parser word() => ref0(alphanum).plus().flatten();
@@ -64,12 +67,4 @@ class NorgGrammar extends GrammarDefinition {
   //       ref0(punctuation),
   //       ref0(escaping),
   //     ].toChoiceParser().not();
-}
-
-class NorgParser extends NorgGrammar {
-  // @override
-  // Parser start() => super.start().map((items) => NorgDocument(items[0]));
-
-  // @override
-  // Parser bold() => super.bold().map((items) => NorgBold(items[1]));
 }
