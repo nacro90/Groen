@@ -146,12 +146,12 @@ void main() {
       });
 
       test('paragraph', () {
-        parser = grammar.build(start: grammar.paragraph);
+        final parser = grammar.build(start: grammar.paragraph);
         expect('{test1}\ntest2  *test3*\ttest4', accept(parser));
       });
 
       test('document', () {
-        parser = grammar.build(start: grammar.document);
+        final parser = grammar.build(start: grammar.document);
         expect('{test1}\ntest2  *test3*\ttest4\n\n/italic/ bold _htun_\n\n', accept(parser));
       });
     });
