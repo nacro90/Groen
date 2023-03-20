@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
-import 'package:groen/editor_view_model.dart';
-import 'package:groen/settings_page.dart';
-import 'package:groen/string_helpers.dart';
 import 'package:provider/provider.dart';
+
+import 'editor_view_model.dart';
+import 'settings_page.dart';
 
 class EditorPage extends StatelessWidget {
   final File file;

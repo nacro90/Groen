@@ -1,4 +1,4 @@
-enum PetitNorgType {
+enum PetitNorgTokenType {
   document,
   paragraph,
   paragraphSegment,
@@ -18,7 +18,7 @@ enum PetitNorgType {
 }
 
 class PetitNorgToken {
-  final PetitNorgType type;
+  final PetitNorgTokenType type;
   final List<PetitNorgToken> children;
 
   const PetitNorgToken({

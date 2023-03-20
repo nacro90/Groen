@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groen/parser/petit/grammar.dart';
+import 'package:groen/core/deserializer/petit/grammar.dart';
 import 'package:petitparser/debug.dart';
 import 'package:petitparser/petitparser.dart';
 import 'package:petitparser/reflection.dart';

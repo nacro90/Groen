@@ -1,9 +1,9 @@
-import 'package:groen/norg/model/node.dart';
+import 'node.dart';
 
-class NorgDocument extends NorgNode {
-  final List<NorgNode> elements;
+class Document extends Node {
+  final List<Node> elements;
 
-  const NorgDocument({
+  const Document({
     required super.raw,
     required super.range,
     required this.elements,

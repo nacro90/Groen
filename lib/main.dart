@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:groen/list_page.dart';
-import 'package:groen/settings_page.dart';
-import 'package:groen/two_state_future_builder.dart';
+import 'package:groen/ui/list_page.dart';
+import 'package:groen/ui/settings_page.dart';
+import 'package:groen/ui/two_state_future_builder.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

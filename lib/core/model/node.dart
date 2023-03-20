@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:groen/norg/model/range.dart';
 
-abstract class NorgNode extends Equatable {
+import 'range.dart';
+
+abstract class Node extends Equatable {
   final Range range;
   final String raw;
 
-  const NorgNode({
+  const Node({
     required this.raw,
     required this.range,
   });

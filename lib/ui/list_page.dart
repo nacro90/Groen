@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:groen/editor_page.dart';
-import 'package:groen/settings_page.dart';
-import 'package:groen/two_state_future_builder.dart';
+import 'package:groen/ui/editor_page.dart';
+import 'package:groen/ui/settings_page.dart';
+import 'package:groen/ui/two_state_future_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:path/path.dart' as path;
