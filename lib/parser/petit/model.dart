@@ -17,11 +17,11 @@ enum PetitNorgType {
   url,
 }
 
-class PetitNorgNode {
+class PetitNorgToken {
   final PetitNorgType type;
-  final List<PetitNorgNode> children;
+  final List<PetitNorgToken> children;
 
-  const PetitNorgNode({
+  const PetitNorgToken({
     required this.type,
     required this.children,
   });

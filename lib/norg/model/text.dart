@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:groen/norg/model/node.dart';
 
 enum NorgAttachedModifierType {
@@ -12,6 +13,31 @@ enum NorgAttachedModifierType {
   inlineComment,
   // inlineMath,
   // variable,
+}
+
+NorgAttachedModifierType norgAttachedModifierTypeFromChar(String charStr) {
+  switch (charStr) {
+    case "*":
+      return NorgAttachedModifierType.bold;
+    case "/":
+      return NorgAttachedModifierType.italic;
+    case "_":
+      return NorgAttachedModifierType.underline;
+    case "-":
+      return NorgAttachedModifierType.strikethrough;
+    case "!":
+      return NorgAttachedModifierType.spoiler;
+    case "^":
+      return NorgAttachedModifierType.superscript;
+    case ",":
+      return NorgAttachedModifierType.subscript;
+    case "`":
+      return NorgAttachedModifierType.inlineCode;
+    case "%":
+      return NorgAttachedModifierType.inlineComment;
+    default:
+      throw ArgumentError.value(charStr);
+  }
 }
 
 abstract class NorgTextNode extends NorgNode {

@@ -7,11 +7,11 @@ import 'grammar.dart';
 
 class PetitNorgParser extends NorgGrammar {
   @override
-  Parser start() => super.start().map((value) => const PetitNorgNode(
+  Parser start() => super.start().map((value) => const PetitNorgToken(
         type: PetitNorgType.document,
         children: [],
       ));
 
-  // @override
-  // Parser document() => super.document().map((value) => null)
+  @override
+  Parser document() => super.document().map((value) => null);
 }

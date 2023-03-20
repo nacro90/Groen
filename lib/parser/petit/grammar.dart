@@ -1,4 +1,5 @@
 import 'package:charcode/charcode.dart';
+import 'package:groen/parser/chardef.dart';
 import 'package:petitparser/petitparser.dart';
 
 import 'helper.dart';
@@ -7,29 +8,46 @@ class NorgGrammar extends GrammarDefinition {
   @override
   Parser start() => ref0(document).end();
 
-  Parser document() => ref0(paragraph).plus();
+  Parser document() => ref0(paragraph).starSeparated(newline().repeat(2));
 
-  Parser paragraph() => ref0(paragraphSegment).plus();
+  Parser paragraph() => (ref0(paragraphSegment) | newline().optional());
 
-  Parser paragraphSegment() =>
-      [
+  Parser paragraphSegment() => [
+        ref0(escaping),
         ref0(attachedModified),
-        whitespace().plus().flatten("whitespace"),
-        word().plus().flatten('word'),
-      ].toChoiceParser().plusLazy(newline()) &
-      newline();
+        ref0(nonLineEndingWhitespace).plus().flatten('whitespace'),
+        newline().neg().plus().flatten('any'),
+      ].toChoiceParser().plus();
 
   Parser link() => [
-        url(),
+        ref0(url),
       ].toChoiceParser();
 
-  Parser url() => char("{") & char("}").neg().plus() & char("}");
+  Parser url() => seq3(
+        charCode($openBrace),
+        seq2(
+          newline().not(),
+          [
+            newline().repeat(2),
+            seq2(newline(), charCode($closeBrace)),
+            charCode($closeBrace),
+          ].toChoiceParser().neg().plus(),
+        ),
+        charCode($closeBrace),
+      );
 
   Parser<Sequence3> attachedModifiedText(int code) => seq3(
         charCode(code),
-        charCode(code).neg().plus().flatten(),
+        seq2(
+          whitespace().not(),
+          [
+            newline().repeat(2),
+            (whitespace() & charCode(code)),
+            charCode(code),
+          ].toChoiceParser().neg().plus(),
+        ),
         charCode(code),
-      ).where((sequence) => sequence.second.trim() == sequence.second);
+      );
   Parser bold() => ref1(attachedModifiedText, $asterisk);
   Parser italic() => ref1(attachedModifiedText, $slash);
   Parser underline() => ref1(attachedModifiedText, $underscore);
@@ -39,27 +57,33 @@ class NorgGrammar extends GrammarDefinition {
   Parser subscript() => ref1(attachedModifiedText, $comma);
   Parser inlineCode() => ref1(attachedModifiedText, $grave);
   Parser inlineComment() => ref1(attachedModifiedText, $percent);
-
-  Parser attachedModified() =>
-      ref0(bold) |
-      ref0(italic) |
-      ref0(underline) |
-      ref0(strikethrough) |
-      ref0(spoiler) |
-      ref0(superscript) |
-      ref0(subscript) |
-      ref0(inlineCode) |
-      ref0(inlineComment);
-
-  Parser lineEnding() => newline();
+  Parser attachedModified() => [
+        ref0(bold),
+        ref0(italic),
+        ref0(underline),
+        ref0(strikethrough),
+        ref0(spoiler),
+        ref0(superscript),
+        ref0(subscript),
+        ref0(inlineCode),
+        ref0(inlineComment),
+      ].toChoiceParser();
 
   Parser<Sequence2> escaping() => seq2(charCode($backslash), any());
+
+  Parser nonWhite() => whitespace().neg();
+
+  Parser paragraphBreak() => string('\n\n');
+
+  Parser nonLineEndingWhitespace() =>
+      whitespaces.map(charCode).toChoiceParser(failureJoiner: selectLast);
 
   // Parser alphanum() => letter() | digit();
 
   // Parser word() => ref0(alphanum).plus().flatten();
 
-  // Parser punctuation() => punctuations.map(charCode).toChoiceParser();
+  // Parser punctuation() =>
+  //     punctuations.map(charCode).toChoiceParser().flatten("punctuation");
 
   // Parser regularChar() => [
   //       ref0(whitespace),
