@@ -1,10 +1,10 @@
-import 'package:groen/norg/model/node.dart';
+import 'node.dart';
 
-abstract class NorgLinkNode extends NorgNode {
+abstract class Link extends Node {
   final String location;
   final String? description;
 
-  const NorgLinkNode({
+  const Link({
     required super.raw,
     required super.range,
     required this.location,
@@ -12,8 +12,8 @@ abstract class NorgLinkNode extends NorgNode {
   });
 }
 
-class NorgUrl extends NorgLinkNode {
-  const NorgUrl({
+class Url extends Link {
+  const Url({
     required super.raw,
     required super.range,
     required super.location,

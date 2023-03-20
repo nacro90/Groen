@@ -5,3 +5,4 @@ export 'parser.dart';
 export 'range.dart';
 export 'node.dart';
 export 'text.dart';
+export 'converter.dart';
