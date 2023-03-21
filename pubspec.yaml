@@ -37,7 +37,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   petitparser: ^5.1.0
-  flutter_quill: ^6.1.0
+  flutter_quill: ^7.0.1
   url_launcher: ^6.1.6
   shared_preferences: ^2.0.15
   file_picker: ^5.2.2
@@ -59,7 +59,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  dart_code_metrics: ^4.19.2
+  dart_code_metrics: ^5.6.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

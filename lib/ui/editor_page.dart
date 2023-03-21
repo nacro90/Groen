@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -23,17 +22,17 @@ class EditorPage extends StatelessWidget {
           title: const Text('groen'),
           actions: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () async => context.read<EditorViewModel>().save(),
-                child: Icon(Icons.save, size: 26.0),
+                child: const Icon(Icons.save, size: 26.0),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () => Get.to(SettingsPage()),
-                child: Icon(Icons.more_vert),
+                onTap: () => Get.to(const SettingsPage()),
+                child: const Icon(Icons.more_vert),
               ),
             ),
           ],

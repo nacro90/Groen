@@ -22,17 +22,17 @@ class _ListPageState extends State<ListPage> {
         title: const Text('groen'),
         actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
+            padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
               onTap: () {},
-              child: Icon(
+              child: const Icon(
                 Icons.search,
                 size: 26.0,
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
+            padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
               onTap: () => Get.to(const SettingsPage()),
               child: const Icon(Icons.more_vert),

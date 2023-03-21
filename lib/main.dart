@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         future: Permission.manageExternalStorage.isGranted,
         builder: (context, grantedSnapshot) {
           if (!grantedSnapshot.hasData) {
-            return Text('loading');
+            return const Text('loading');
           }
           if (grantedSnapshot.data ?? false) {
             return buildApp();

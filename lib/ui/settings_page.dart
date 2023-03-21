@@ -1,6 +1,5 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const rootDirKey = 'root_directory';
@@ -37,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     await prefs.setString(rootDirKey, path);
                     setState(() {});
                   },
-                  child: Text('select dir'),
+                  child: const Text('select dir'),
                 ),
               ],
             );

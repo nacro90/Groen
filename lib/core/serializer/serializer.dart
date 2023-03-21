@@ -1,5 +1,5 @@
 import 'package:groen/core/model/document.dart';
 
-abstract class Serializer {
-  String serialize(Document document);
+abstract class Serializer<T> {
+  T serialize(Document document);
 }
