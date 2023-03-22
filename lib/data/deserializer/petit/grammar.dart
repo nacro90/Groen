@@ -1,5 +1,5 @@
 import 'package:charcode/charcode.dart';
-import 'package:groen/core/chardef.dart';
+import 'package:groen/data/chardef.dart';
 import 'package:petitparser/petitparser.dart';
 
 import 'helper.dart';

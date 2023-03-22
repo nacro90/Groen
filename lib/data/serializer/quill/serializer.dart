@@ -1,6 +1,6 @@
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:groen/core/model/model.dart';
-import 'package:groen/core/serializer/serializer.dart';
+import 'package:groen/data/model/model.dart';
+import 'package:groen/data/serializer/serializer.dart';
 
 class DeltaSerializer implements Serializer<quill.Delta> {
   @override

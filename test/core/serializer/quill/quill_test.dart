@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groen/core/model/model.dart';
-import 'package:groen/core/serializer/quill/quill.dart';
+import 'package:groen/data/model/model.dart';
+import 'package:groen/data/serializer/quill/quill.dart';
 
 void main() {
   group('DeltaSerializer', () {

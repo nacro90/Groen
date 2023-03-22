@@ -1,5 +1,5 @@
-import 'package:groen/core/deserializer/deserializer.dart';
-import 'package:groen/core/model/document.dart';
+import 'package:groen/data/deserializer/deserializer.dart';
+import 'package:groen/data/model/document.dart';
 
 class PetitDeserializer implements Deserializer<String> {
   @override
