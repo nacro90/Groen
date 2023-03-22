@@ -24,39 +24,39 @@ class NorgGrammar extends GrammarDefinition {
       ].toChoiceParser();
 
   Parser url() => seq3(
-        charCode($openBrace),
+        char('{'),
         seq2(
           newline().not(),
           [
             newline().repeat(2),
-            seq2(newline(), charCode($closeBrace)),
-            charCode($closeBrace),
+            seq2(newline(), char('}')),
+            char('}'),
           ].toChoiceParser().neg().plus(),
         ),
-        charCode($closeBrace),
+        char('}'),
       );
 
-  Parser<Sequence3> attachedModifiedText(int code) => seq3(
-        charCode(code),
+  Parser<Sequence3> attachedModifiedText(String c) => seq3(
+        char(c),
         seq2(
           whitespace().not(),
           [
             newline().repeat(2),
-            (whitespace() & charCode(code)),
-            charCode(code),
+            (whitespace() & char(c)),
+            char(c),
           ].toChoiceParser().neg().plus(),
         ),
-        charCode(code),
+        char(c),
       );
-  Parser bold() => ref1(attachedModifiedText, $asterisk);
-  Parser italic() => ref1(attachedModifiedText, $slash);
-  Parser underline() => ref1(attachedModifiedText, $underscore);
-  Parser strikethrough() => ref1(attachedModifiedText, $dash);
-  Parser spoiler() => ref1(attachedModifiedText, $exclamation);
-  Parser superscript() => ref1(attachedModifiedText, $circumflex);
-  Parser subscript() => ref1(attachedModifiedText, $comma);
-  Parser inlineCode() => ref1(attachedModifiedText, $grave);
-  Parser inlineComment() => ref1(attachedModifiedText, $percent);
+  Parser bold() => ref1(attachedModifiedText, '*');
+  Parser italic() => ref1(attachedModifiedText, '/');
+  Parser underline() => ref1(attachedModifiedText, '_');
+  Parser strikethrough() => ref1(attachedModifiedText, '-');
+  Parser spoiler() => ref1(attachedModifiedText, '!');
+  Parser superscript() => ref1(attachedModifiedText, '^');
+  Parser subscript() => ref1(attachedModifiedText, ',');
+  Parser inlineCode() => ref1(attachedModifiedText, '`');
+  Parser inlineComment() => ref1(attachedModifiedText, '%');
   Parser attachedModified() => [
         ref0(bold),
         ref0(italic),
@@ -69,7 +69,7 @@ class NorgGrammar extends GrammarDefinition {
         ref0(inlineComment),
       ].toChoiceParser();
 
-  Parser<Sequence2> escaping() => seq2(charCode($backslash), any());
+  Parser<Sequence2> escaping() => seq2(char(r'\'), any());
 
   Parser nonWhite() => whitespace().neg();
 
