@@ -1,24 +1,31 @@
 import 'node.dart';
 
 class Paragraph extends Node {
-  final List<ParagraphSegment> segments;
+  final List<Node> nodes;
 
   const Paragraph({
+    required this.nodes,
+    required super.start,
+    required super.line,
+    required super.column,
     required super.raw,
-    required super.range,
-    required this.segments,
   });
 
   @override
-  List<Object?> get props => super.props + [segments];
+  List<Object?> get props => super.props + [nodes];
 }
 
 class ParagraphSegment extends Node {
-  final List<Node> elements;
+  final List<Node> nodes;
 
   const ParagraphSegment({
+    required this.nodes,
+    required super.start,
+    required super.line,
+    required super.column,
     required super.raw,
-    required super.range,
-    required this.elements,
   });
+
+  @override
+  List<Object?> get props => super.props + [nodes];
 }

@@ -5,17 +5,24 @@ abstract class Link extends Node {
   final String? description;
 
   const Link({
-    required super.raw,
-    required super.range,
     required this.location,
     this.description,
+    required super.start,
+    required super.line,
+    required super.column,
+    required super.raw,
   });
+
+  @override
+  List<Object?> get props => super.props + [location, description];
 }
 
 class Url extends Link {
   const Url({
-    required super.raw,
-    required super.range,
     required super.location,
+    required super.start,
+    required super.line,
+    required super.column,
+    required super.raw,
   });
 }

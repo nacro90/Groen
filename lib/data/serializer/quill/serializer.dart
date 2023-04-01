@@ -6,7 +6,6 @@ class DeltaSerializer implements Serializer<quill.Delta> {
   @override
   quill.Delta serialize(Document document) {
     return quill.Delta()
-      ..insert('quill test')
-      ..insert(document.raw);
+      ..insert('quill test');
   }
 }

@@ -1,14 +1,19 @@
 import 'node.dart';
 
 class Document extends Node {
-  final List<Node> elements;
+  final List<Node> nodes;
 
   const Document({
+    required this.nodes,
+    required super.start,
+    required super.line,
+    required super.column,
     required super.raw,
-    required super.range,
-    required this.elements,
   });
 
+  const Document.empty()
+      : this(start: 1, line: 1, column: 1, raw: '', nodes: const []);
+
   @override
-  List<Object?> get props => super.props + [elements];
+  List<Object?> get props => super.props + [nodes];
 }

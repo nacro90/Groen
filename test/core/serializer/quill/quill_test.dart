@@ -9,9 +9,6 @@ void main() {
       serializer = DeltaSerializer();
     });
     test('serialize document', () {
-      const doc = Document(raw: "test document", range: Range(0, 5), elements: []);
-      final d = serializer.serialize(doc);
-      print(d.toJson());
     });
   });
 }

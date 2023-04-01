@@ -1,4 +1,3 @@
-import 'package:charcode/charcode.dart';
 import 'package:groen/data/chardef.dart';
 import 'package:petitparser/petitparser.dart';
 
@@ -8,56 +7,57 @@ class NorgGrammar extends GrammarDefinition {
   @override
   Parser start() => ref0(document).end();
 
-  Parser document() => ref0(paragraph).starSeparated(newline().repeat(2));
+  Parser document() => ref0(paragraph).starSeparatedList(ref0(paragraphBreak));
 
-  Parser paragraph() => (ref0(paragraphSegment) | newline().optional());
+  Parser paragraph() =>
+      ref0(paragraphSegment).starSeparatedList(ref0(lineEnding));
 
   Parser paragraphSegment() => [
+        ref0(link),
         ref0(escaping),
-        ref0(attachedModified),
-        ref0(nonLineEndingWhitespace).plus().flatten('whitespace'),
-        newline().neg().plus().flatten('any'),
+        ref0(attachedModifiedElement),
+        ref0(norgWhitespace),
+        ref0(plainText),
       ].toChoiceParser().plus();
+
+  Parser plainText() => whitespace().neg().plus().flatten('plaintext');
 
   Parser link() => [
         ref0(url),
       ].toChoiceParser();
 
-  Parser url() => seq3(
-        char('{'),
-        seq2(
-          newline().not(),
-          [
-            newline().repeat(2),
-            seq2(newline(), char('}')),
-            char('}'),
-          ].toChoiceParser().neg().plus(),
-        ),
-        char('}'),
-      );
+  Parser url() => (char('{') &
+      seq2(
+        newline().not(),
+        [
+          ref0(paragraphBreak),
+          seq2(newline(), char('}')),
+          char('}'),
+        ].toChoiceParser().neg().plus(),
+      ).flatten('location') &
+      char('}'));
 
-  Parser<Sequence3> attachedModifiedText(String c) => seq3(
-        char(c),
-        seq2(
-          whitespace().not(),
-          [
-            newline().repeat(2),
-            (whitespace() & char(c)),
-            char(c),
-          ].toChoiceParser().neg().plus(),
-        ),
-        char(c),
-      );
-  Parser bold() => ref1(attachedModifiedText, '*');
-  Parser italic() => ref1(attachedModifiedText, '/');
-  Parser underline() => ref1(attachedModifiedText, '_');
-  Parser strikethrough() => ref1(attachedModifiedText, '-');
-  Parser spoiler() => ref1(attachedModifiedText, '!');
-  Parser superscript() => ref1(attachedModifiedText, '^');
-  Parser subscript() => ref1(attachedModifiedText, ',');
-  Parser inlineCode() => ref1(attachedModifiedText, '`');
-  Parser inlineComment() => ref1(attachedModifiedText, '%');
-  Parser attachedModified() => [
+  Parser attachedModifierContent(String c) => [
+        whitespace().not(),
+        [
+          ref0(paragraphBreak),
+          (whitespace() & char(c)),
+          char(c),
+        ].toChoiceParser().neg().plus(),
+      ].toSequenceParser().flatten('content');
+
+  Parser attachedModified(String c) =>
+      char(c) & ref1(attachedModifierContent, c) & char(c);
+  Parser bold() => ref1(attachedModified, '*');
+  Parser italic() => ref1(attachedModified, '/');
+  Parser underline() => ref1(attachedModified, '_');
+  Parser strikethrough() => ref1(attachedModified, '-');
+  Parser spoiler() => ref1(attachedModified, '!');
+  Parser superscript() => ref1(attachedModified, '^');
+  Parser subscript() => ref1(attachedModified, ',');
+  Parser inlineCode() => ref1(attachedModified, '`');
+  Parser inlineComment() => ref1(attachedModified, '%');
+  Parser attachedModifiedElement() => [
         ref0(bold),
         ref0(italic),
         ref0(underline),
@@ -69,26 +69,16 @@ class NorgGrammar extends GrammarDefinition {
         ref0(inlineComment),
       ].toChoiceParser();
 
-  Parser<Sequence2> escaping() => seq2(char(r'\'), any());
+  Parser escaping() => char('\\') & any();
 
-  Parser nonWhite() => whitespace().neg();
+  Parser lineEnding() => newline();
 
-  Parser paragraphBreak() => string('\n\n');
+  Parser paragraphBreak() =>
+      newline().repeatSeparated(ref0(norgWhitespace).star(), 2, unbounded);
 
-  Parser nonLineEndingWhitespace() =>
-      whitespaces.map(charCode).toChoiceParser(failureJoiner: selectLast);
-
-  // Parser alphanum() => letter() | digit();
-
-  // Parser word() => ref0(alphanum).plus().flatten();
-
-  // Parser punctuation() =>
-  //     punctuations.map(charCode).toChoiceParser().flatten("punctuation");
-
-  // Parser regularChar() => [
-  //       ref0(whitespace),
-  //       // ref0(lineEnding),
-  //       ref0(punctuation),
-  //       ref0(escaping),
-  //     ].toChoiceParser().not();
+  Parser norgWhitespace() => whitespaces
+      .map(charCode)
+      .toChoiceParser(failureJoiner: selectLast)
+      .plus()
+      .flatten('whitespace');
 }

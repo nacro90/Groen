@@ -1,8 +1,8 @@
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:groen/data/deserializer/deserializer.dart';
-import 'package:groen/data/model/document.dart';
+import 'package:groen/data/model/model.dart';
 
 class DeltaDeserializer implements Deserializer<quill.Delta> {
   @override
-  Document deserialize(quill.Delta input) => throw UnimplementedError();
+  Node deserialize(quill.Delta input) => throw UnimplementedError();
 }
