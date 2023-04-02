@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:groen/data/deserializer/petit/model.dart';
 import 'package:groen/data/deserializer/petit/parser.dart';
 import 'package:groen/data/model/model.dart';
 import 'package:petitparser/debug.dart';
@@ -21,10 +20,45 @@ void main() {
   group('NorgParser', () {
     late NorgParser np;
     setUp(() {
-      np = NorgParser();
+      np = const NorgParser();
+    });
+    group('parser', () {
+      test('following leading whitespace', () {
+        final parser = np.build();
+        expectParse(
+          parser,
+          'test\n',
+          const Document(
+            start: 0,
+            line: 1,
+            column: 1,
+            raw: 'test\n',
+            children: [
+              Paragraph(
+                start: 0,
+                line: 1,
+                column: 1,
+                raw: 'test',
+                children: [
+                  ParagraphSegment(
+                    start: 0,
+                    line: 1,
+                    column: 1,
+                    raw: 'test',
+                    children: [
+                      PlainText(start: 0, line: 1, column: 1, raw: 'test'),
+                    ],
+                  )
+                ],
+              ),
+              LineEnding(start: 4, line: 1, column: 5, raw: '\n'),
+            ],
+          ),
+        );
+      });
     });
     test('document', () {
-      final parser = np.build(start: np.document).end();
+      final parser = np.build();
       expectParse(
         parser,
         '*bold*\t{url} \\/nonitalic/\n\nnewpara',
@@ -33,21 +67,21 @@ void main() {
           line: 1,
           column: 1,
           raw: '*bold*\t{url} \\/nonitalic/\n\nnewpara',
-          nodes: [
+          children: [
             Paragraph(
               start: 0,
               line: 1,
               column: 1,
               raw: '*bold*\t{url} \\/nonitalic/',
-              nodes: [
+              children: [
                 ParagraphSegment(
                   start: 0,
                   line: 1,
                   column: 1,
                   raw: '*bold*\t{url} \\/nonitalic/',
-                  nodes: [
+                  children: [
                     AttachedModified(
-                        mod: AttachedModType.bold,
+                        type: AttachedModType.bold,
                         text: 'bold',
                         start: 0,
                         line: 1,
@@ -79,13 +113,13 @@ void main() {
               line: 3,
               column: 1,
               raw: "newpara",
-              nodes: [
+              children: [
                 ParagraphSegment(
                   start: 27,
                   line: 3,
                   column: 1,
                   raw: "newpara",
-                  nodes: [
+                  children: [
                     PlainText(start: 27, line: 3, column: 1, raw: 'newpara'),
                   ],
                 ),
@@ -105,15 +139,15 @@ void main() {
           line: 1,
           column: 1,
           raw: '*bold*\t{url} \\/nonitalic/\nnewline',
-          nodes: [
+          children: [
             ParagraphSegment(
               start: 0,
               line: 1,
               column: 1,
               raw: '*bold*\t{url} \\/nonitalic/',
-              nodes: [
+              children: [
                 AttachedModified(
-                    mod: AttachedModType.bold,
+                    type: AttachedModType.bold,
                     text: 'bold',
                     start: 0,
                     line: 1,
@@ -138,7 +172,7 @@ void main() {
               line: 2,
               column: 1,
               raw: "newline",
-              nodes: [
+              children: [
                 PlainText(start: 26, line: 2, column: 1, raw: 'newline'),
               ],
             )
@@ -157,9 +191,9 @@ void main() {
           line: 1,
           column: 1,
           raw: '*bold*\t{url} \\/nonitalic/',
-          nodes: [
+          children: [
             AttachedModified(
-                mod: AttachedModType.bold,
+                type: AttachedModType.bold,
                 text: 'bold',
                 start: 0,
                 line: 1,
@@ -181,7 +215,7 @@ void main() {
         parser,
         '*bold*',
         const AttachedModified(
-          mod: AttachedModType.bold,
+          type: AttachedModType.bold,
           text: 'bold',
           start: 0,
           line: 1,

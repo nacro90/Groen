@@ -47,7 +47,7 @@ class EditorPage extends StatelessWidget {
   Widget createQuillEditor(BuildContext context) {
     return Column(
       children: [
-        // quill.QuillToolbar.basic(controller: controller),
+        quill.QuillToolbar.basic(controller: context.read<EditorViewModel>().quillController),
         Expanded(
           child: quill.QuillEditor.basic(
             controller: context.read<EditorViewModel>().quillController,

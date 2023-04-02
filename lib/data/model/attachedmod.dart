@@ -16,7 +16,7 @@ enum AttachedModType {
   // variable,
 }
 
-const charByAttachedMod = {
+const charByAttachedModType = {
   AttachedModType.bold: '*',
   AttachedModType.italic: '/',
   AttachedModType.underline: '_',
@@ -28,7 +28,7 @@ const charByAttachedMod = {
   AttachedModType.inlineComment: '%',
 };
 
-const attachedModByChar = {
+const attachedModTypeByChar = {
   '*': AttachedModType.bold,
   '/': AttachedModType.italic,
   '_': AttachedModType.underline,
@@ -40,19 +40,19 @@ const attachedModByChar = {
   '%': AttachedModType.inlineComment,
 };
 
-final attachedModChars = Set.unmodifiable(attachedModByChar.keys);
+final attachedModChars = Set.unmodifiable(attachedModTypeByChar.keys);
 
 extension AttachedModChar on AttachedModType {
-  String get char => charByAttachedMod[this]!;
+  String get char => charByAttachedModType[this]!;
   int get charCode => char.codeUnit;
 }
 
 class AttachedModified extends Node {
-  final AttachedModType mod;
+  final AttachedModType type;
   final String text;
 
   const AttachedModified({
-    required this.mod,
+    required this.type,
     required this.text,
     required super.start,
     required super.line,
@@ -61,5 +61,5 @@ class AttachedModified extends Node {
   });
 
   @override
-  List<Object?> get props => super.props + [mod, text];
+  List<Object?> get props => super.props + [type, text];
 }

@@ -12,7 +12,7 @@ void main() {
     late NorgGrammar grammar;
     late Parser parser;
     setUp(() {
-      grammar = NorgGrammar();
+      grammar = const NorgGrammar();
       parser = grammar.build();
     });
     test('should detect common problems', () {
@@ -29,6 +29,7 @@ void main() {
           expect('**', isNot(accept(parser)));
           expect('* succeded whitespace*', isNot(accept(parser)));
           expect('*preceded whitespace *', isNot(accept(parser)));
+          expect('c*preceded whitespace *', isNot(accept(parser)));
         });
         test('italic', () {
           final parser = grammar.build(start: grammar.italic).end();
@@ -160,6 +161,7 @@ void main() {
             accept(parser));
         expect('test', accept(parser));
         expect('  test   ', accept(parser));
+        expect('test\n', accept(parser));
       });
 
       test('norgWhitespace', () {

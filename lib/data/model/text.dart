@@ -18,6 +18,9 @@ class Whitespace extends Node {
     required super.column,
     required super.raw,
   });
+
+  // @override
+  // String toString() => _invisibleToString(this);
 }
 
 class LineEnding extends Node {
@@ -27,6 +30,9 @@ class LineEnding extends Node {
     required super.column,
     required super.raw,
   });
+
+  @override
+  String toString() => _invisibleToString(this);
 }
 
 class ParagraphBreak extends Node {
@@ -36,4 +42,10 @@ class ParagraphBreak extends Node {
     required super.column,
     required super.raw,
   });
+
+  @override
+  String toString() => _invisibleToString(this);
 }
+
+String _invisibleToString(Node node) =>
+    '${node.runtimeType}(${node.start}, ${node.line}, ${node.column}, ${node.raw.codeUnits.map((c) => "U+$c")}, null)';

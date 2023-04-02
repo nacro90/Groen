@@ -6,15 +6,13 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:petitparser/petitparser.dart';
 
-// Annotation which generates the cat.mocks.dart library and the MockCat class.
 @GenerateNiceMocks([
-  MockSpec<Parser>(unsupportedMembers: {#captureResultGeneric}),
+  MockSpec<Parser>(unsupportedMembers: {#captureResultGeneric})
 ])
 import 'deserializer_test.mocks.dart';
 
 void main() {
   group('PetitDeserializer', () {
-
     test('successful parse', () {
       final parser = MockParser();
       const success = Success('', 0, Document.empty());

@@ -1,4 +1,3 @@
-import 'package:groen/data/deserializer/petit/model.dart';
 import 'package:groen/data/model/model.dart';
 import 'package:petitparser/petitparser.dart';
 
@@ -9,15 +8,17 @@ extension TokenNodeListCast on Token {
 }
 
 class NorgParser extends NorgGrammar {
+  const NorgParser();
+
   @override
   Parser document() => super.document().token().map(
         (token) {
           return Document(
-            nodes: token.nodes,
             start: token.start,
             line: token.line,
             column: token.column,
             raw: token.input,
+            children: token.nodes,
           );
         },
       );
@@ -25,11 +26,11 @@ class NorgParser extends NorgGrammar {
   @override
   Parser paragraph() => super.paragraph().token().map(
         (token) => Paragraph(
-          nodes: token.nodes,
           start: token.start,
           line: token.line,
           column: token.column,
           raw: token.input,
+          children: token.nodes,
         ),
       );
 
@@ -37,11 +38,11 @@ class NorgParser extends NorgGrammar {
   Parser paragraphSegment() => super.paragraphSegment().token().map(
         (token) {
           return ParagraphSegment(
-            nodes: token.nodes,
             start: token.start,
             line: token.line,
             column: token.column,
             raw: token.input,
+            children: token.nodes,
           );
         },
       );
@@ -49,7 +50,7 @@ class NorgParser extends NorgGrammar {
   @override
   Parser attachedModified(String c) => super.attachedModified(c).token().map(
         (token) => AttachedModified(
-          mod: attachedModByChar[token.value[0]]!,
+          type: attachedModTypeByChar[token.value[0]]!,
           text: token.value[1],
           start: token.start,
           line: token.line,

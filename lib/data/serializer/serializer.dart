@@ -1,5 +1,5 @@
-import 'package:groen/data/model/document.dart';
+import 'package:groen/data/model/model.dart';
 
 abstract class Serializer<T> {
-  T serialize(Document document);
+  T serialize(Node node);
 }

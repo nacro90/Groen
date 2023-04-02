@@ -4,10 +4,18 @@ import 'package:petitparser/petitparser.dart';
 import 'helper.dart';
 
 class NorgGrammar extends GrammarDefinition {
+  const NorgGrammar();
+
   @override
   Parser start() => ref0(document).end();
 
-  Parser document() => ref0(paragraph).starSeparatedList(ref0(paragraphBreak));
+  Parser document() => [
+        ref0(_anyWhitepace).star(),
+        ref0(paragraph).starSeparatedList(ref0(paragraphBreak)),
+        ref0(_anyWhitepace).star(),
+      ]
+          .toSequenceParser()
+          .map((matches) => matches.expand((match) => match).toList());
 
   Parser paragraph() =>
       ref0(paragraphSegment).starSeparatedList(ref0(lineEnding));
@@ -81,4 +89,6 @@ class NorgGrammar extends GrammarDefinition {
       .toChoiceParser(failureJoiner: selectLast)
       .plus()
       .flatten('whitespace');
+
+  Parser _anyWhitepace() => ref0(norgWhitespace) | ref0(lineEnding);
 }

@@ -7,9 +7,8 @@ Parser<String> charCode(int code, [String? message]) {
   );
 }
 
-extension SurroundedParserExtension on Parser {
-  Parser<Sequence3> surroundedBy(Parser left, [Parser? right]) =>
-      seq3(left, this, right ?? left);
+extension SurroundedParserExtension<T> on Parser<T> {
+  Parser surroundedBy(Parser s) => s & this & s;
 }
 
 extension StarSeparatedList on Parser {
