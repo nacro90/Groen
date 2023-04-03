@@ -111,7 +111,7 @@ class AttachedModDeltaSerializer extends NodeDeltaSerializer<AttachedModified> {
       quill.Delta()..insert(node.raw, {'code': true});
 
   quill.Delta serializeSubscript(AttachedModified node) =>
-      quill.Delta()..insert(node.raw, {'size': 'small'});
+      quill.Delta()..insert(node.raw, {'small': true});
 
   quill.Delta serializeSuperscript(AttachedModified node) =>
       quill.Delta()..insert(node.raw, {'size': 'huge'});

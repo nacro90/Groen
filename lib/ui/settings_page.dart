@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const rootDirKey = 'root_directory';
@@ -29,7 +30,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 Text(prefs.getString(rootDirKey) ?? 'no root dir'),
                 ElevatedButton(
                   onPressed: () async {
-                    final path = await FilePicker.platform.getDirectoryPath();
+                    String? path;
+                    try {
+                      path = await FilePicker.platform.getDirectoryPath();
+                    } catch (e) {
+                      Get.snackbar('Can not select path', e.toString());
+                    }
                     if (path == null) {
                       return;
                     }

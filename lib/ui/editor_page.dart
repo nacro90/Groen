@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -47,10 +49,27 @@ class EditorPage extends StatelessWidget {
   Widget createQuillEditor(BuildContext context) {
     return Column(
       children: [
-        quill.QuillToolbar.basic(controller: context.read<EditorViewModel>().quillController),
+        quill.QuillToolbar.basic(
+          controller: context.read<EditorViewModel>().quillController,
+          showDividers: true,
+          showFontFamily: false,
+          showSmallButton: true,
+          showAlignmentButtons: false,
+          embedButtons: FlutterQuillEmbeds.buttons(
+            showFormulaButton: true,
+            // mediaPickSettingSelector: (context) async =>
+            //     MediaPickSetting.Gallery,
+            onImagePickCallback: (file) async => 'imagee',
+            onVideoPickCallback: (file) async => 'videoo',
+            filePickImpl: (context) => FilePicker.platform
+                .pickFiles()
+                .then((value) => value?.paths[0]),
+          ),
+        ),
         Expanded(
           child: quill.QuillEditor.basic(
             controller: context.read<EditorViewModel>().quillController,
+            embedBuilders: FlutterQuillEmbeds.builders(),
             readOnly: false,
           ),
         )

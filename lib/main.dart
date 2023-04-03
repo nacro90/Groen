@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:groen/ui/list_page.dart';
@@ -23,10 +25,11 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder<bool>(
         future: Permission.manageExternalStorage.isGranted,
         builder: (context, grantedSnapshot) {
-          if (!grantedSnapshot.hasData) {
+          if (!Platform.isLinux && !grantedSnapshot.hasData) {
+            print('!grantedSnapshot.hasData');
             return const Text('loading');
           }
-          if (grantedSnapshot.data ?? false) {
+          if (Platform.isLinux || (grantedSnapshot.data ?? false)) {
             return buildApp();
           } else {
             return TwoStateFutureBuilder<PermissionStatus>(

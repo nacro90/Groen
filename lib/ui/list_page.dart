@@ -66,7 +66,10 @@ class _ListPageState extends State<ListPage> {
                 },
               );
             },
-            fallback: (_) => const Text('Loading...'),
+            fallback: (_) {
+              print("fallback");
+              return const Text('Loading...');
+            },
           );
         },
       ),
