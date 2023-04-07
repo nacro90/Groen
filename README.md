@@ -9,6 +9,6 @@ Neorg mobile app that inspired by Obsidian.
 ### Name?
 It is Neorg in reverse. Also it means _green_ in Dutch.
 
-## How to shape the [roadmap](./ROADMAP.md)
+### How to shape the [roadmap](./ROADMAP.md)
 - Join the [Discord channel](https://discord.gg/affpThD5)
 - Open an issue
