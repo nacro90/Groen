@@ -9,16 +9,16 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const GroenApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class GroenApp extends StatelessWidget {
+  const GroenApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'groeN',
+      title: 'Groen',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
         future: Permission.manageExternalStorage.isGranted,
         builder: (context, grantedSnapshot) {
           if (!Platform.isLinux && !grantedSnapshot.hasData) {
-            print('!grantedSnapshot.hasData');
             return const Text('loading');
           }
           if (Platform.isLinux || (grantedSnapshot.data ?? false)) {
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
               future: Permission.manageExternalStorage.request(),
               builder: (context, status) {
                 if (status.isDenied || status.isPermanentlyDenied) {
-                  return const Text('bi siktir git');
+                  return const Text('nothing to do');
                 }
                 return buildApp();
               },
